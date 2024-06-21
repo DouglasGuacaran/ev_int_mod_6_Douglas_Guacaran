@@ -1,23 +1,28 @@
 package DouglasGuacaran.Eva_Int_Mod_6.model;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table (name ="usuario")
+@Table(name = "usuario")
 public class Usuario {
-	//Entidad de usuario con sus respectivos atributos getters y setters a través de lombok
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,16 +42,19 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
-
     private String password;
 
-    private LocalDateTime creadoEn;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UsuarioRole usuarioRole;
-    
-    // Constructores, getters, setters y otros métodos 
+    @Column(name = "creado_en", nullable = false, updatable = false)
+    private LocalDateTime creadoEn = LocalDateTime.now();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "usuario_roles",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
+
 	public Long getId() {
 		return id;
 	}
@@ -110,6 +118,15 @@ public class Usuario {
 	public void setCreadoEn(LocalDateTime creadoEn) {
 		this.creadoEn = creadoEn;
 	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
     
-    // Constructores, getters, setters y otros métodos son generados por Lombok
+    
+    
 }
