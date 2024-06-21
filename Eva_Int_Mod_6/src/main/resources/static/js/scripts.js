@@ -5,12 +5,12 @@ $(document).ready(function(){
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
-    if (username === '' || password === '') {
+    if (email === '' || password === '') {
         alert('Por favor complete todos los campos.');
         return;
     }
-    
+        
 });
