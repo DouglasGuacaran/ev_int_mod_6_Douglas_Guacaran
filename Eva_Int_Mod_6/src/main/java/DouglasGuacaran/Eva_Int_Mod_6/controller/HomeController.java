@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         model.addAttribute("email", email);
-        return "home"; // Devuelve la vista home.html
+        return "home"; 
     }
 }
