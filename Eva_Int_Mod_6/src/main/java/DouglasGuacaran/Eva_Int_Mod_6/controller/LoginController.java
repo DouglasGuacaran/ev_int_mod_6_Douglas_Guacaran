@@ -22,12 +22,5 @@ public class LoginController {
         }
         return "login";
     }
-
-    @GetMapping("/home")
-    public String home(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        model.addAttribute("email", email);
-        return "home";
-    }
+     
 }

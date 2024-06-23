@@ -1,38 +1,45 @@
 package DouglasGuacaran.Eva_Int_Mod_6.service;
 
-import DouglasGuacaran.Eva_Int_Mod_6.model.Role;
+import DouglasGuacaran.Eva_Int_Mod_6.model.CustomUserDetails;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Usuario;
-import DouglasGuacaran.Eva_Int_Mod_6.repository.RoleRepository;
 import DouglasGuacaran.Eva_Int_Mod_6.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
+
+    private final UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
-    @Autowired
-    private RoleRepository roleRepository;
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        usuario.getRoles().forEach(role -> {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        });
 
-    public Usuario registrarUsuario(Usuario usuario) {
+        return new CustomUserDetails(usuario, grantedAuthorities);
+    }
+
+    public void save(Usuario usuario, BCryptPasswordEncoder passwordEncoder) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
-        // Asignar rol
-        Set<Role> roles = new HashSet<>();
-        Optional<Role> userRole = roleRepository.findByRoleName("USER");
-        userRole.ifPresent(roles::add);
-        usuario.setRoles(roles);
-
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
     }
 }

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EvaIntMod6Application {
+public class Eva_Int_Mod6_Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EvaIntMod6Application.class, args);
+		SpringApplication.run(Eva_Int_Mod6_Application.class, args);
 	}
 
 }

@@ -53,5 +53,13 @@ public class Transaccion {
         DEPOSITO, RETIRO, ENVIO, RECEPCION
     }
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
     // Constructores, getters, setters y otros métodos son generados por Lombok
 }

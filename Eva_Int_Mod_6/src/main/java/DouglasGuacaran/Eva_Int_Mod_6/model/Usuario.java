@@ -3,57 +3,40 @@ package DouglasGuacaran.Eva_Int_Mod_6.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
+
 public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String rut;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private String nombre;
+	@Column(nullable = false, unique = true)
+	private String rut;
 
-    @Column(nullable = false)
-    private String apellido;
+	@Column(nullable = false)
+	private String nombre;
 
-    private String direccion;
+	@Column(nullable = false)
+	private String apellido;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+	private String direccion;
 
-    @Column(nullable = false)
-    private String password;
+	@Column(nullable = false, unique = true)
+	private String email;
 
-    @Column(name = "creado_en", nullable = false, updatable = false)
-    private LocalDateTime creadoEn = LocalDateTime.now();
+	@Column(nullable = false)
+	private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "usuario_roles",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+	@Column(name = "creado_en", nullable = false, updatable = false)
+	private LocalDateTime creadoEn = LocalDateTime.now();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
 
 	public Long getId() {
 		return id;
@@ -126,7 +109,39 @@ public class Usuario {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-    
-    
-    
+
+	// Constructor con todos los atributos
+	public Usuario(Long id, String rut, String nombre, String apellido, String direccion, String email, String password,
+			LocalDateTime creadoEn, Set<Role> roles) {
+		super();
+		this.id = id;
+		this.rut = rut;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.direccion = direccion;
+		this.email = email;
+		this.password = password;
+		this.creadoEn = creadoEn;
+		this.roles = roles;
+	}
+
+	// Constructor con los atributos de usuario sin id
+	public Usuario(String rut, String nombre, String apellido, String direccion, String email, String password,
+			LocalDateTime creadoEn, Set<Role> roles) {
+		super();
+		this.rut = rut;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.direccion = direccion;
+		this.email = email;
+		this.password = password;
+		this.creadoEn = creadoEn;
+		this.roles = roles;
+	}
+
+	// Constructor vacio
+	public Usuario() {
+		super();
+	}
+
 }
