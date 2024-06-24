@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConexionBD {
 	private static final String URL = "jdbc:mysql://localhost:3306/alke_wallet";
     private static final String USER = "root";
-    private static final String PASSWORD = "delunoaldos12";
+    private static final String PASSWORD = "12345";
 
     public static Connection getConexion() throws SQLException {
         try {

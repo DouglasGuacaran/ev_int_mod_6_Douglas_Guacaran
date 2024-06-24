@@ -47,7 +47,7 @@ public class RegistroController {
 
             logger.info("Usuario registrado exitosamente: {}", usuario);
 
-            return "redirect:/login";
+            return "redirect:/";
         } catch (DataIntegrityViolationException e) {
             logger.error("Error al registrar usuario: {}", e.getMessage());
             model.addAttribute("error", "El correo electrónico o el RUT ya está registrado");
