@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,8 +27,14 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/about}">Acerca de</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/services}">Servicios</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        	Servicios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                            <li><a class="dropdown-item" th:href="@{/transacciones}">Ver Historial de Operaciones</a></li>
+                            <li><a class="dropdown-item" th:href="@{/transacciones/nueva}">Nueva Transacción</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/team}">Nosotros</a>
@@ -463,6 +469,7 @@
 				<!-- copyright section end -->
 			</div>
 		</div>
+	</main>
 		<!--footer section end -->
 		<!-- Javascript files-->
 		<script src="js/jquery.min.js"></script>
@@ -477,7 +484,6 @@
 		<script src="js/owl.carousel.js"></script>
 		<script
 			src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-	</main>
 	<footer>
 		<p>&copy; 2024 Your Company. All rights reserved.</p>
 	</footer>

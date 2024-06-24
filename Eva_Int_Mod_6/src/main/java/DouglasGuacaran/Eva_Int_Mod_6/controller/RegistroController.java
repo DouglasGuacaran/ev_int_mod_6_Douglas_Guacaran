@@ -43,7 +43,7 @@ public class RegistroController {
             usuario.setDireccion(direccion);
             usuario.setCreadoEn(LocalDateTime.now());
 
-            usuarioService.save(usuario, null);
+            usuarioService.save(usuario);
 
             logger.info("Usuario registrado exitosamente: {}", usuario);
 
