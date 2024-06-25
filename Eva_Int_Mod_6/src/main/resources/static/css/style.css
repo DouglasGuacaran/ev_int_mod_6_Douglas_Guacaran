@@ -55,9 +55,9 @@ a {
      -ms-transition: all .3s ease-in-out;
      -o-transition: all .3s ease-in-out;
      transition: all .3s ease-in-out;
+     z-index:2;
 }
 
-h1,
 h2,
 h3,
 h4,
@@ -70,7 +70,8 @@ h6 {
      font-weight: normal;
      line-height: normal;
      color: #111111;
-     margin: 0
+     margin: 0;
+     z-index:1;
 }
 
 h1 {
@@ -210,10 +211,13 @@ button {
      width: 100%;
 }
 #navbarSupportedContent > ul > li:nth-child(2) > a {
-	width:125px;
+	width:auto;
+}
+#navbarSupportedContent > ul > li:nth-child(3) > a {
+	width:auto;
 }
 #navbarSupportedContent > ul.navbar-nav.ml-auto > li > a{
-	width:161px;
+	width:auto;
 }
 .layout_padding {
      padding-top: 90px;
@@ -258,7 +262,7 @@ button {
 .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 13px;
     padding-left: 13px;
-    font-size: 18px;
+    font-size: 14px;
     color: #2e2d2e;
     /* text-transform: uppercase; */
 }
@@ -554,12 +558,21 @@ button {
   text-align: center;
 }
 
-.container_1:hover .image {
+.body {
+    padding-top: 70px; /* Ajusta esta altura según la altura de tu navbar */
+}
+/*_1:hover .image {
   opacity: 0.3;
   background-color: rgb(71.0.5.9.5)!important;
 
+}*/
+.header_section{
+	height:70px;
 }
 
+.container{
+	margin-top:70px ;
+}
 .container_1:hover .middle {
   opacity: 1;
   z-index: 2;

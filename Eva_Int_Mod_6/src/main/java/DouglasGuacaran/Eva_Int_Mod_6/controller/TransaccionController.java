@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import DouglasGuacaran.Eva_Int_Mod_6.model.Cuenta;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Transaccion;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Usuario;
 import DouglasGuacaran.Eva_Int_Mod_6.repository.UsuarioRepository;
@@ -30,10 +31,13 @@ public class TransaccionController {
         Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
         if (usuario != null) {
             List<Transaccion> transacciones = transaccionService.getTransaccionesPorUsuario(usuario);
+            Cuenta cuenta = transacciones.isEmpty() ? null : transacciones.get(0).getCuenta();
+            Double saldo = cuenta != null ? cuenta.getSaldo() : 0.0;
             model.addAttribute("transacciones", transacciones);
+            model.addAttribute("saldo", saldo);
+            model.addAttribute("transaccion", new Transaccion());
             return "transacciones";
         } else {
-            // Manejar caso donde el usuario no fue encontrado
             return "error";
         }
     }
@@ -49,12 +53,11 @@ public class TransaccionController {
         String email = principal.getName();
         Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
         if (usuario != null) {
-            transaccion.setUsuario(usuario); // Asociar el usuario con la transacción
-            transaccion.setFecha(LocalDateTime.now()); // Establecer la fecha de la transacción
-            transaccionService.guardarTransaccion(transaccion); // Guardar la transacción
+            transaccion.setUsuario(usuario);
+            transaccion.setFecha(LocalDateTime.now());
+            transaccionService.guardarTransaccion(transaccion);
             return "redirect:/transacciones";
         } else {
-            // Manejar caso donde el usuario no fue encontrado
             return "error";
         }
     }
