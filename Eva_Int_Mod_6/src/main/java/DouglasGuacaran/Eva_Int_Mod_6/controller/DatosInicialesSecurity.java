@@ -41,10 +41,10 @@ public class DatosInicialesSecurity implements ApplicationRunner {
         roles.add(userRole);
 
         // Instantiating Usuario objects
-        Usuario usuarioInsertar = new Usuario("263492137", "Douglas", "Guacaran", "Santiago de Chile", "douglasguacaran@gmail.com", passCifrado, LocalDateTime.now(), roles);
+        Usuario usuarioInsertar = new Usuario("263492137", "Douglas", "Guacaran", "Santiago de Chile", "douglasguacaran@gmail.com", passCifrado, LocalDateTime.now(), roles, null);
         usuarioRepository.save(usuarioInsertar);
 
-        Usuario usuarioInsertar2 = new Usuario("15151515-1","Jorge", "Alvarez","Buenos Aires", "jorgepereyra@gmail.com", passCifrado2, LocalDateTime.now(), roles);
+        Usuario usuarioInsertar2 = new Usuario("15151515-1","Jorge", "Alvarez","Buenos Aires", "jorgepereyra@gmail.com", passCifrado2, LocalDateTime.now(), roles,null);
         usuarioRepository.save(usuarioInsertar2);
     }
     

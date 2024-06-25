@@ -43,10 +43,21 @@ public class TransaccionController {
     }
 
     @GetMapping("/transacciones/nueva")
-    public String nuevaTransaccionForm(Model model) {
-        model.addAttribute("transaccion", new Transaccion());
-        return "nueva_transaccion";
+    public String nuevaTransaccionForm(Model model, Principal principal) {
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+        if (usuario != null) {
+            Cuenta cuenta = usuario.getCuentas().stream().findFirst().orElse(null);
+            if (cuenta != null) {
+                model.addAttribute("cuenta", cuenta);
+                model.addAttribute("saldo", cuenta.getSaldo());
+                model.addAttribute("transaccion", new Transaccion());
+                return "nueva_transaccion";
+            }
+        }
+        return "error";
     }
+
 
     @PostMapping("/transacciones")
     public String guardarTransaccion(Transaccion transaccion, Principal principal) {

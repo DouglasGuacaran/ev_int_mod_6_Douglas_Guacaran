@@ -2,41 +2,90 @@ package DouglasGuacaran.Eva_Int_Mod_6.model;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
-
 public class Usuario {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false, unique = true)
-	private String rut;
+    @Column(nullable = false, unique = true)
+    private String rut;
 
-	@Column(nullable = false)
-	private String nombre;
+    @Column(nullable = false)
+    private String nombre;
 
-	@Column(nullable = false)
-	private String apellido;
+    @Column(nullable = false)
+    private String apellido;
 
-	private String direccion;
+    private String direccion;
 
-	@Column(nullable = false, unique = true)
-	private String email;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-	@Column(nullable = false)
-	private String password;
+    @Column(nullable = false)
+    private String password;
 
-	@Column(name = "creado_en", nullable = false, updatable = false)
-	private LocalDateTime creadoEn = LocalDateTime.now();
+    @Column(name = "creado_en", nullable = false, updatable = false)
+    private LocalDateTime creadoEn = LocalDateTime.now();
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cuenta> cuentas;
+
+    // Getters y Setters
+    // ...
+
+    public List<Cuenta> getCuentas() {
+        return cuentas;
+    }
+
+    public void setCuentas(List<Cuenta> cuentas) {
+        this.cuentas = cuentas;
+    }
+
+    // Constructor con todos los atributos
+    public Usuario(Long id, String rut, String nombre, String apellido, String direccion, String email, String password,
+            LocalDateTime creadoEn, Set<Role> roles, List<Cuenta> cuentas) {
+        super();
+        this.id = id;
+        this.rut = rut;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.email = email;
+        this.password = password;
+        this.creadoEn = creadoEn;
+        this.roles = roles;
+        this.cuentas = cuentas;
+    }
+
+    // Constructor con los atributos de usuario sin id
+    public Usuario(String rut, String nombre, String apellido, String direccion, String email, String password,
+            LocalDateTime creadoEn, Set<Role> roles, List<Cuenta> cuentas) {
+        super();
+        this.rut = rut;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.email = email;
+        this.password = password;
+        this.creadoEn = creadoEn;
+        this.roles = roles;
+        this.cuentas = cuentas;
+    }
+
+    // Constructor vacio
+    public Usuario() {
+        super();
+    }
 
 	public Long getId() {
 		return id;
@@ -109,39 +158,5 @@ public class Usuario {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	// Constructor con todos los atributos
-	public Usuario(Long id, String rut, String nombre, String apellido, String direccion, String email, String password,
-			LocalDateTime creadoEn, Set<Role> roles) {
-		super();
-		this.id = id;
-		this.rut = rut;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.direccion = direccion;
-		this.email = email;
-		this.password = password;
-		this.creadoEn = creadoEn;
-		this.roles = roles;
-	}
-
-	// Constructor con los atributos de usuario sin id
-	public Usuario(String rut, String nombre, String apellido, String direccion, String email, String password,
-			LocalDateTime creadoEn, Set<Role> roles) {
-		super();
-		this.rut = rut;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.direccion = direccion;
-		this.email = email;
-		this.password = password;
-		this.creadoEn = creadoEn;
-		this.roles = roles;
-	}
-
-	// Constructor vacio
-	public Usuario() {
-		super();
-	}
-
+    
 }
