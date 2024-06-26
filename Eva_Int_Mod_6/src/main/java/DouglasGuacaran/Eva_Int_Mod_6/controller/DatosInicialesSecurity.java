@@ -55,6 +55,11 @@ public class DatosInicialesSecurity implements ApplicationRunner {
         Cuenta cuenta2 = new Cuenta(usuarioInsertar2, 2000.0, LocalDateTime.now());
         cuentaRepository.save(cuenta2);
         
+        Usuario nuevoUsuario = new Usuario("12345678-9", "Nuevo", "Usuario", "Dirección", "nuevo@usuario.com", passCifrado, LocalDateTime.now(), roles);
+        usuarioRepository.save(nuevoUsuario);
+        Cuenta nuevaCuenta = new Cuenta(nuevoUsuario, 0.0, LocalDateTime.now());
+        cuentaRepository.save(nuevaCuenta);
+        
     }
     
 }

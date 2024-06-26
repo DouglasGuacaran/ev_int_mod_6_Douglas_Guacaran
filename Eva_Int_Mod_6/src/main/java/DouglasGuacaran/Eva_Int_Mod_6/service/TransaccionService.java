@@ -25,7 +25,7 @@ public class TransaccionService {
         return transaccionRepository.findByCuenta(cuenta);
     }
 
-    public void guardarTransaccion (Transaccion transaccion) {
+    public void guardarTransaccion(Transaccion transaccion) {
         transaccionRepository.save(transaccion);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Cuenta;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Transaccion;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Usuario;
+import DouglasGuacaran.Eva_Int_Mod_6.repository.CuentaRepository;
 import DouglasGuacaran.Eva_Int_Mod_6.repository.UsuarioRepository;
 import DouglasGuacaran.Eva_Int_Mod_6.service.TransaccionService;
 
@@ -20,10 +21,12 @@ import DouglasGuacaran.Eva_Int_Mod_6.service.TransaccionService;
 public class TransaccionController {
     private final TransaccionService transaccionService;
     private final UsuarioRepository usuarioRepository;
+    private final CuentaRepository cuentaRepository;
 
-    public TransaccionController(TransaccionService transaccionService, UsuarioRepository usuarioRepository) {
+    public TransaccionController(TransaccionService transaccionService, UsuarioRepository usuarioRepository, CuentaRepository cuentaRepository) {
         this.transaccionService = transaccionService;
         this.usuarioRepository = usuarioRepository;
+        this.cuentaRepository = cuentaRepository;
     }
 
     @GetMapping("/transacciones")
@@ -94,6 +97,28 @@ public class TransaccionController {
                             if (cuenta.getSaldo() >= monto) {
                                 cuenta.setSaldo(cuenta.getSaldo() - monto);
                                 cuentaDestinatario.setSaldo(cuentaDestinatario.getSaldo() + monto);
+                                
+                                // Crear transacción de envío
+                                transaccion.setUsuario(usuario);
+                                transaccion.setCuenta(cuenta);
+                                transaccion.setFecha(LocalDateTime.now());
+                                transaccion.setCuentaDestino(cuentaDestinatario);
+                                transaccionService.guardarTransaccion(transaccion);
+                                
+                                // Crear transacción de recepción para el destinatario
+                                Transaccion transaccionRecepcion = new Transaccion();
+                                transaccionRecepcion.setUsuario(usuarioDestinatario);
+                                transaccionRecepcion.setCuenta(cuentaDestinatario);
+                                transaccionRecepcion.setFecha(LocalDateTime.now());
+                                transaccionRecepcion.setMonto(monto);
+                                transaccionRecepcion.setTipo(Transaccion.TipoTransaccion.RECEPCION);
+                                transaccionRecepcion.setDescripcion("Recepción de dinero desde " + usuario.getNombre() + " " + usuario.getApellido());
+                                transaccionService.guardarTransaccion(transaccionRecepcion);
+
+                                cuentaRepository.save(cuenta);
+                                cuentaRepository.save(cuentaDestinatario);
+                                
+                                return "redirect:/transacciones";
                             } else {
                                 model.addAttribute("error", "Saldo insuficiente para realizar el envío.");
                                 model.addAttribute("transaccion", transaccion);
@@ -108,6 +133,7 @@ public class TransaccionController {
                 transaccion.setCuenta(cuenta);
                 transaccion.setFecha(LocalDateTime.now());
                 transaccionService.guardarTransaccion(transaccion);
+                cuentaRepository.save(cuenta); // Save the updated account
                 return "redirect:/transacciones";
             }
         }
