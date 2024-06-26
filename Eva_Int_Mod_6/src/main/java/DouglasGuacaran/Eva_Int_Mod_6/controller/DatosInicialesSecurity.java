@@ -9,8 +9,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import DouglasGuacaran.Eva_Int_Mod_6.model.Cuenta;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Role;
 import DouglasGuacaran.Eva_Int_Mod_6.model.Usuario;
+import DouglasGuacaran.Eva_Int_Mod_6.repository.CuentaRepository;
 import DouglasGuacaran.Eva_Int_Mod_6.repository.RoleRepository;
 import DouglasGuacaran.Eva_Int_Mod_6.repository.UsuarioRepository;
 
@@ -19,6 +21,8 @@ public class DatosInicialesSecurity implements ApplicationRunner {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private CuentaRepository cuentaRepository;
     @Autowired
     private RoleRepository roleRepository;
     
@@ -41,11 +45,16 @@ public class DatosInicialesSecurity implements ApplicationRunner {
         roles.add(userRole);
 
         // Instantiating Usuario objects
-        Usuario usuarioInsertar = new Usuario("263492137", "Douglas", "Guacaran", "Santiago de Chile", "douglasguacaran@gmail.com", passCifrado, LocalDateTime.now(), roles, null);
+        Usuario usuarioInsertar = new Usuario("263492137", "Douglas", "Guacaran", "Santiago de Chile", "douglasguacaran@gmail.com", passCifrado, LocalDateTime.now(), roles);
         usuarioRepository.save(usuarioInsertar);
-
-        Usuario usuarioInsertar2 = new Usuario("15151515-1","Jorge", "Alvarez","Buenos Aires", "jorgepereyra@gmail.com", passCifrado2, LocalDateTime.now(), roles,null);
+        Cuenta cuenta1 = new Cuenta(usuarioInsertar, 1000.0, LocalDateTime.now());
+        cuentaRepository.save(cuenta1);
+        
+        Usuario usuarioInsertar2 = new Usuario("15151515-1","Jorge", "Alvarez","Buenos Aires", "jorgepereyra@gmail.com", passCifrado2, LocalDateTime.now(), roles);
         usuarioRepository.save(usuarioInsertar2);
+        Cuenta cuenta2 = new Cuenta(usuarioInsertar2, 2000.0, LocalDateTime.now());
+        cuentaRepository.save(cuenta2);
+        
     }
     
 }

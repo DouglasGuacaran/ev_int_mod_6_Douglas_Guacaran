@@ -82,7 +82,20 @@ public class Usuario {
         this.cuentas = cuentas;
     }
 
-    // Constructor vacio
+    public Usuario(String rut, String nombre, String apellido, String direccion, String email, String password,
+			LocalDateTime creadoEn, Set<Role> roles) {
+		super();
+		this.rut = rut;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.direccion = direccion;
+		this.email = email;
+		this.password = password;
+		this.creadoEn = creadoEn;
+		this.roles = roles;
+	}
+
+	// Constructor vacio
     public Usuario() {
         super();
     }

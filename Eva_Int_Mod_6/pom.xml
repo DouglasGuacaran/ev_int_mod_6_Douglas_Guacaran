@@ -22,9 +22,9 @@
     </licenses>
     <developers>
         <developer>
-            <id>douglasguacaran</id>
+            <id>DouglasGuacaran</id>
             <name>Douglas Guacaran</name>
-            <email>douglas@example.com</email>
+            <email>douglasguacaran@gmail.com</email>
         </developer>
     </developers>
     <scm>
@@ -42,6 +42,11 @@
             <artifactId>spring-web</artifactId>
             <version>6.1.10</version>
         </dependency>
+        <dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-java8time</artifactId>
+		    <version>3.0.4.RELEASE</version>
+		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
